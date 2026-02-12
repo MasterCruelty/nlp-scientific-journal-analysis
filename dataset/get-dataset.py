@@ -3,6 +3,17 @@ import pandas as pd
 import time
 import re
 import html
+
+"""
+    get-dataset.py works as an extractor of articles from a certain Journal of our choice.
+    * First of all there is need to get the ISSN of the Journal and the range of years. 
+    * Then we can do the correct API call to get the amount of articles of our interest.
+    * In the end the amount of data will get a first refine and converted into a dataset.
+
+"""
+
+
+
 #fetching articles in json format by api call and return array.
 def fetch_articles(start_date,end_date,rows,url):
     offset = 0
