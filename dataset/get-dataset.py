@@ -4,20 +4,13 @@ import time
 import re
 import html
 
-
-#function which clean the raw html abstract format
-def clean_abstract(raw):
-    #remove  XML/HTML
-    text = re.sub("<.*?>", "", raw)
-    #decode HTML entity (&amp;, &lt;, etc.)
-    text = html.unescape(text)
-    return text.strip()
-
+#fetching articles in json format by api call and return array.
 def fetch_articles(start_date,end_date,rows,url):
     offset = 0
     all_papers = []
     #fetching articles increasing offset page by page until we don't get any articles
     while True:
+        temp_array = []
         params = {
             "filter": f"from-pub-date:{start_date},until-pub-date:{end_date}",
             "rows": rows,
@@ -31,29 +24,44 @@ def fetch_articles(start_date,end_date,rows,url):
         items = data["message"]["items"]
         if not items:
             break
-
-        #for each item obtained, we get a few fields of interest.
-        for item in items:
-            title = item.get("title", [""])[0]
-            abstract_raw = item.get("abstract")
-            #without any abstract the item is useless, otherwise we clean it from html tags
-            if not abstract_raw:
-                continue
-            abstract_cleaned = clean_abstract(abstract_raw)
-            
-            year = item.get("issued", {}).get("date-parts", [[None]])[0][0]
-            doi = item.get("DOI")
-
-            all_papers.append({
-                "title": title,
-                "abstract": abstract_cleaned,
-                "year": year,
-                "doi": doi
-            })
-
+        
+        all_papers += articles_to_array(items,temp_array)
+        
         offset += rows
         time.sleep(1)
     return all_papers 
+
+#aux function to conver to array json articles extracted by api call
+def articles_to_array(articles_json,articles_array):
+    #for each item obtained, we get a few fields of interest.
+    for item in articles_json:
+        title = item.get("title", [""])[0]
+        abstract_raw = item.get("abstract")
+        #without any abstract the item is useless, otherwise we clean it from html tags
+        if not abstract_raw:
+            continue
+        abstract_cleaned = clean_abstract(abstract_raw)
+            
+        year = item.get("issued", {}).get("date-parts", [[None]])[0][0]
+        doi = item.get("DOI")
+
+        articles_array.append({
+            "title": title,
+            "abstract": abstract_cleaned,
+            "year": year,
+            "doi": doi
+        })
+    #return articles_array
+
+#aux function which clean the raw html abstract format
+def clean_abstract(raw):
+    #remove  XML/HTML
+    text = re.sub("<.*?>", "", raw)
+    #decode HTML entity (&amp;, &lt;, etc.)
+    text = html.unescape(text)
+    return text.strip()
+
+
 
 #build dataset given the articles extracted by api call
 def build_dataset(articles):
