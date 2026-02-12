@@ -1,5 +1,4 @@
 requests
 pandas
 tqdm
-html
 re
