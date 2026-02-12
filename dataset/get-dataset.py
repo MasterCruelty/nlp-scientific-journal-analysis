@@ -2,7 +2,7 @@ import requests
 import pandas as pd
 import time
 import re
-
+import html
 #fetching articles in json format by api call and return array.
 def fetch_articles(start_date,end_date,rows,url):
     offset = 0
