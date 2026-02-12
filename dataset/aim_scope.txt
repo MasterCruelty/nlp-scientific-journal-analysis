@@ -1,0 +1,24 @@
+Aim & scope
+Frontiers in Artificial Intelligence is a multidisciplinary journal indexed in PubMed Central (PMC), Scopus, and the DOAJ, exploring the cutting-edge and disruptive technological revolution of Artificial Intelligence (AI).
+Led by Field Chief Editor Thomas Hartung (Bloomberg School of Public Health, Johns Hopkins University, USA), the journal explores the challenges and solutions of AI's enormous expansion into aspects of modern life such as finance, law, medicine, agriculture, and human learning.
+The journal welcomes submissions addressing the challenges and solutions that bring the AI suite of methods to practical use. Topics include, but are not limited to:
+    • AI for human learning and behavior change
+    • AI in business
+    • AI in food, agriculture, and water
+    • artificial intelligence in finance
+    • big data and AI in high-energy physics
+    • logic and reasoning in AI
+    • language and computation
+    • machine learning and artificial intelligence
+    • medicine and public health
+    • natural language processing
+    • organoid intelligence
+    • pattern recognition
+    • technology and law.
+Additionally, Frontiers in Artificial Intelligence welcomes research that facilitates:
+    • innovative research in core and applied AI areas
+    • solving problems such as data access and quality, validation, and ethical issues
+    • an understanding of the computational tools to handle complex datasets.
+This publication also seeks submissions that advance the UN’s Sustainable Development Goals (SDGs), especially SDG 9: industry, innovation, and infrastructure.
+Manuscripts that focus on medical diagnostics, patient care, or social theory are not suitable for publication in this journal. Studies that do not directly contribute to the understanding, development, or application of artificial intelligence, including those that primarily utilize machine learning for data analysis in non-AI fields, are also outside the scope of this journal. The section Technology and Law doesn't accept papers focusing on the law of AI or the law of technology unless the papers also contain research on computational models and methods to support the law or legal practitioners. Please note that all submissions to Technology and Law must be considered in-scope of both this section and the journal to be considered for publication.
+Frontiers in Artificial Intelligence is committed to advancing developments in AI research by allowing unrestricted access to articles and communicating scientific knowledge to researchers and the public, enabling future scientific breakthroughs.
