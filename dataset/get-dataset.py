@@ -83,16 +83,17 @@ def build_dataset(articles):
 # execution 
 ##############################
 
-#issn number of the journal (Frontiers in Artificial Intelligence)
-issn = "26248212"   
-url = f"https://api.crossref.org/journals/{issn}/works"
+if __name__ == "__main__":
+    #issn number of the journal (Frontiers in Artificial Intelligence)
+    issn = "26248212"   
+    url = f"https://api.crossref.org/journals/{issn}/works"
 
-#range of years
-start_date = "2021-01-01"
-end_date = "2025-12-31"
+    #range of years
+    start_date = "2021-01-01"
+    end_date = "2025-12-31"
 
-#number of rows
-rows = 1000
+    #number of rows
+    rows = 1000
 
-articles = fetch_articles(start_date,end_date,rows,url)
-build_dataset(articles)
+    articles = fetch_articles(start_date,end_date,rows,url)
+    build_dataset(articles)
