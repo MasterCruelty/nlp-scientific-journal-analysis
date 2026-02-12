@@ -51,7 +51,7 @@ def articles_to_array(articles_json,articles_array):
             "year": year,
             "doi": doi
         })
-    #return articles_array
+    return articles_array
 
 #aux function which clean the raw html abstract format
 def clean_abstract(raw):
@@ -86,5 +86,4 @@ end_date = "2025-12-31"
 rows = 1000
 
 articles = fetch_articles(start_date,end_date,rows,url)
-
 build_dataset(articles)
