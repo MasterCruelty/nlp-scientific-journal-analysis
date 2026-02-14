@@ -95,5 +95,6 @@ if __name__ == "__main__":
     #number of rows
     rows = 1000
 
+    #Collecting abstract of articles from target journal
     articles = fetch_articles(start_date,end_date,rows,url)
     build_dataset(articles)
