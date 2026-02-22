@@ -3,3 +3,5 @@ pandas
 tqdm
 re
 html
+nltk
+sentence_transformers
