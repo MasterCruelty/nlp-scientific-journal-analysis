@@ -5,3 +5,4 @@ re
 html
 nltk
 sentence_transformers
+numpy
