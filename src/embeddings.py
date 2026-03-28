@@ -26,7 +26,7 @@ class EmbeddingGenerator:
         """
         return self.model.encode(
             texts,
-            batch_size=batch_size,
-            show_progress_bar=show_progress,
+            batch_size=32,
+            show_progress_bar=True,
             convert_to_numpy=True
         )
