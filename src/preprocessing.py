@@ -1,28 +1,25 @@
 import re
-import nltk
-nltk.download('stopwords')
-from nltk.corpus import stopwords
-#define set of stop words in the english language
-STOPWORDS = set(stopwords.words("english"))
-
 
 """
-    preprocessing.py help us to preprocess the dataset we obtained by apply lower case to any word,
-    by removing puntuaction or any symbol that doesn't give us useful information.
-    Stop words will be removed too.
+    preprocessing.py preprocesses text for SBERT embeddings.
+    
+    SBERT is trained on natural language and relies on full sentence structure 
+    to build semantic representations. Removing stop words, lowercasing, 
+    or custom tokenization degrades embedding quality.
+    
+    This module only removes technical artifacts that carry no semantic meaning
+    (e.g. spurious whitespace, non-printable characters).
 """
 
 
 def preprocess_text(text):
-    text = text.lower()
+    if not isinstance(text, str):
+        return ""
 
-    #remove puntuactions and any other not meaningful words.
-    text = re.sub(r"[^a-z\s]", " ", text)
+    # Normalize multiple whitespace and spurious newlines
+    text = re.sub(r'\s+', ' ', text)
 
-    # tokenization by white space
-    tokens = text.split()
+    # Remove non-printable / corrupted unicode characters
+    text = re.sub(r'[^\x20-\x7E]', ' ', text)
 
-    # remove all stopwords defined 
-    tokens = [t for t in tokens if t not in STOPWORDS]
-
-    return " ".join(tokens)
+    return text.strip()
