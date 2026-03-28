@@ -1,21 +1,32 @@
 from sentence_transformers import SentenceTransformer
 
 """
-    embeddings.py taks a list of string(our set of articles's abstract) and return
-    the corresponding embeddings using the SentenceTrasformer model.
-    There's need to create an instance of EmbeddingsGenrator, then we pass the list of 
-    abstracts already preprocessed to obtain the embeddings.
-    Then we pass in a second moment the scope alrady preprocessed to obtain its embedding too.
+    embeddings.py takes a list of strings (abstracts or scope) and returns
+    the corresponding embeddings using a SentenceTrasformer model.
+
+    Model: allenai-specter
+    This model is trained on scientific papers.
+
+    1. Create an instance of EmbeddingsGenerator.
+    2. We pass the list of abstracts to obtain the embeddings.
+    3. We pass the scope to obatin its embedding too.
 """
 
 
 class EmbeddingGenerator:
-    def __init__(self, model_name="sentence-transformers/all-MiniLM-L6-v2"):
+    def __init__(self, model_name="allenai-spected"):
         self.model = SentenceTransformer(model_name)
 
     def encode_texts(self, texts):
         """
-        texts: list of abstracts already preprocessed or single element list containing scope
+        texts: list of abstracts (preprocessed) or single-element list containing scope.
+        batch_size: controls memory usage during encoding.
+        show_progress: set True to display tqdm progress bar.
         return: array numpy with embeddings.
         """
-        return self.model.encode(texts, convert_to_numpy=True)
+        return self.model.encode(
+            texts,
+            batch_size=batch_size,
+            show_progress_bar=show_progress,
+            convert_to_numpy=True
+        )
