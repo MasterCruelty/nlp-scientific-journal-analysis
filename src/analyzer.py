@@ -1,9 +1,9 @@
 import numpy as np
 
 """
-    analyzer.py does the cosine similarity between the scope embedding and all the abstracts embeddings.
-    The output will say us which article is coerent or not with the scope. This will be the score.
-    There's also a function with base stats about the output obtained.
+    analyzer.py computes the cosine similarity between the scope embedding and all the abstracts embeddings.
+    The output will tell us how much an article is coerent or not with the scope. This value will be the alignment score.
+    There's also a function which shows basic stats about the output obtained.
 """
 
 
