@@ -6,14 +6,16 @@ import html
 
 """
     get-dataset.py works as an extractor of articles from a certain Journal of our choice.
-    * First of all there is need to get the ISSN of the Journal and the range of years. 
-    * Then we can do the correct API call to get the amount of articles of our interest.
-    * In the end the amount of data will get a first refine and converted into a dataset.
+    * First of all there is need to obtain the ISSN of the Journal and it's needed to select a range of years. 
+    * Then we use Crossref API to get the articles of our interest.
+    * At the end the amount of data will get a first refine and converted into a dataset.
 """
 
 
 
-#fetching articles in json format by api call and return array.
+"""
+    This function extracts articles by api call in json format and return an array of articles
+"""
 def fetch_articles(start_date,end_date,rows,url):
     offset = 0
     all_papers = []
@@ -29,8 +31,8 @@ def fetch_articles(start_date,end_date,rows,url):
         resp = requests.get(url, params=params)
         data = resp.json()
 
-        #no items -> we already finished -> break
         items = data["message"]["items"]
+        #no items -> we already finished -> break
         if not items:
             break
         
@@ -40,13 +42,16 @@ def fetch_articles(start_date,end_date,rows,url):
         time.sleep(1)
     return all_papers 
 
-#aux function to conver to array json articles extracted by api call
+
+"""
+    This function takes raw articles data extracted by api call.
+    It takes a few fields of interest and convert to array.
+"""
 def articles_to_array(articles_json,articles_array):
-    #for each item obtained, we get a few fields of interest.
     for item in articles_json:
         title = item.get("title", [""])[0]
         abstract_raw = item.get("abstract")
-        #without any abstract the item is useless, otherwise we clean it from html tags
+        #without any abstract the item is useless and we ignore it, otherwise we clean it from html tags
         if not abstract_raw:
             continue
         abstract_cleaned = clean_abstract(abstract_raw)
@@ -62,7 +67,9 @@ def articles_to_array(articles_json,articles_array):
         })
     return articles_array
 
-#aux function which clean the raw html abstract format
+"""
+    This function removes any html tags from the raw abstract and return a clean string version.
+"""
 def clean_abstract(raw):
     #remove  XML/HTML
     text = re.sub("<.*?>", "", raw)
@@ -70,9 +77,9 @@ def clean_abstract(raw):
     text = html.unescape(text)
     return text.strip()
 
-
-
-#build dataset given the articles extracted by api call
+"""
+    This function convert the array of articles in a csv dataset
+"""
 def build_dataset(articles):
     df = pd.DataFrame(articles)
     df.to_csv("dataset.csv", index=False)
