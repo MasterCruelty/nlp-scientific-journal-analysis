@@ -13,9 +13,9 @@ class Analyzer:
         self.scope_embedding = scope_embedding
         self.article_embeddings = article_embeddings
 
-    def cosine_similarity(self, vec1, vec2):
-        num = np.dot(vec1, vec2)
-        denom = np.linalg.norm(vec1) * np.linalg.norm(vec2)
+    def cosine_similarity(self, vector1, vector2):
+        num = np.dot(vector1, vector2)
+        denom = np.linalg.norm(vector1) * np.linalg.norm(vector2)
         return num / denom if denom != 0 else 0.0
 
     def compute_scores(self):
