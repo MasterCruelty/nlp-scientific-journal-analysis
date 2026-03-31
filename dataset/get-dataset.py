@@ -81,9 +81,9 @@ def clean_abstract(raw):
     This function convert the array of articles in a csv dataset
 """
 def build_dataset(articles):
-    df = pd.DataFrame(articles)
-    df.to_csv("dataset.csv", index=False)
-    print("Total articles:", len(df))
+    data = pd.DataFrame(articles)
+    data.to_csv("dataset.csv", index=False)
+    print("Total articles:", len(data))
 
 
 ##############################
@@ -103,5 +103,7 @@ if __name__ == "__main__":
     rows = 1000
 
     #Collecting abstract of articles from target journal
+    print("Collecting articles...")
     articles = fetch_articles(start_date,end_date,rows,url)
-    build_dataset(articles)
+    print("Extraction completed.")
+    build_dataset(articles)    
