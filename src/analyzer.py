@@ -26,7 +26,7 @@ class Analyzer:
     def statistics(self, scores):
         return {
             "mean": float(np.mean(scores)),
-            "variance": float(np.var(scores)),
+            "std": float(np.std(scores)),
             "min": float(np.min(scores)),
             "max": float(np.max(scores))
         }
