@@ -8,9 +8,9 @@ from analyzer import Analyzer
 
     1. Load the dataset.
     2. Preprocess abstracts of each article and the scope.
-    3. Generation of embeddings
-    4. Compute the cosine similarity between each abstract and the scope 
-    5. Attach score for each article
+    3. Generation of embeddings.
+    4. Compute the cosine similarity between each abstract and the scope. 
+    5. Attach score for each article.
     6. Show global and per-year statistics.
     7. Save new enriched dataset.
 """
