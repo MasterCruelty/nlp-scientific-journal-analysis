@@ -2,7 +2,7 @@ from sentence_transformers import SentenceTransformer
 
 """
     embeddings.py takes a list of strings (abstracts or scope) and returns
-    the corresponding embeddings using a SentenceTrasformer model.
+    the corresponding embeddings using a domain specific pre-trained Sentence Transformer model.
 
     Model: allenai-specter
     This model is trained on scientific papers.
