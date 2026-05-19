@@ -7,8 +7,8 @@ import re
     to build semantic representations. Removing stop words, lowercasing, 
     or custom tokenization degrades embedding quality.
     
-    This module only removes technical artifacts that carry no semantic meaning
-    (e.g. spurious whitespace, non-printable characters).
+    This module only removes formatting noise that carry no semantic meaning
+    (e.g. extra whitespace and non-printable characters).
 """
 
 
