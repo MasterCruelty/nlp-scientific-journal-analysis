@@ -9,7 +9,7 @@ from sentence_transformers import SentenceTransformer
 
     1. Create an instance of EmbeddingsGenerator.
     2. We pass the list of abstracts to obtain the embeddings.
-    3. We pass the scope to obatin its embedding too.
+    3. We pass the scope to obtain its embedding too.
 """
 
 
