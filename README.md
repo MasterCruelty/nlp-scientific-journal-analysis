@@ -29,6 +29,3 @@ The code is designed to be adaptable to any scientific journal available via Cro
 1. ISSN Code: Obtain the ISSN code of the desired journal and insert it into the dataset/get-dataset.py script.
 
 2. Journal Scope: Retrieve the official Scope text of the journal and save it as a .txt file inside the dataset folder.
-
-    1. Sotto-elemento (usa 4 spazi o un tab)
-    2. Sotto-elemento
