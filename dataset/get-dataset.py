@@ -6,83 +6,62 @@ import html
 
 """
     get-dataset.py works as an extractor of articles from a certain Journal of our choice.
-    * First of all there is need to obtain the ISSN of the Journal and it's needed to select a range of years. 
+    * First of all there is need to obtain the ISSN of the Journal and it's needed to select a range of years.
     * Then we use Crossref API to get the articles of our interest.
     * At the end the amount of data will get a first refine and converted into a dataset.
 """
 
 
-
-"""
-    This function extracts articles by api call in json format and return an array of articles
-"""
-def fetch_articles(start_date,end_date,rows,url):
+def fetch_articles(start_date, end_date, rows, url):
+    """Fetch articles via Crossref API, paginating until no items remain. Returns a list of extracted articles."""
     offset = 0
     all_papers = []
-    #fetching articles increasing offset page by page until we don't get any articles
     while True:
-        temp_array = []
         params = {
             "filter": f"from-pub-date:{start_date},until-pub-date:{end_date}",
             "rows": rows,
-            "offset": offset
+            "offset": offset,
         }
-
+        
         resp = requests.get(url, params=params)
-        data = resp.json()
-
-        items = data["message"]["items"]
-        #no items -> we already finished -> break
+        items = resp.json()["message"]["items"]
+        
         if not items:
             break
         
-        all_papers += articles_to_array(items,temp_array)
+        all_papers.extend(parse_articles(items))
         
         offset += rows
         time.sleep(1)
-    return all_papers 
+    return all_papers
 
 
-"""
-    This function takes raw articles data extracted by api call.
-    It takes a few fields of interest and convert to array.
-"""
-def articles_to_array(articles_json,articles_array):
+def parse_articles(articles_json):
+    """Extract relevant fields from raw API items; skip entries without an abstract. Returns refined list of articles."""
+    articles = []
     for item in articles_json:
-        title = item.get("title", [""])[0]
         abstract_raw = item.get("abstract")
-        #without any abstract the item is useless and we ignore it, otherwise we clean it from html tags
         if not abstract_raw:
             continue
-        abstract_cleaned = clean_abstract(abstract_raw)
-            
-        year = item.get("issued", {}).get("date-parts", [[None]])[0][0]
-        doi = item.get("DOI")
-
-        articles_array.append({
-            "title": title,
-            "abstract": abstract_cleaned,
-            "year": year,
-            "doi": doi
+        
+        articles.append({
+            "title": item.get("title", [""])[0],
+            "abstract": clean_abstract(abstract_raw),
+            "year": item.get("issued", {}).get("date-parts", [[None]])[0][0],
+            "doi": item.get("DOI"),
         })
-    return articles_array
+    return articles
 
-"""
-    This function removes any html tags from the raw abstract and return a clean string version.
-"""
+
 def clean_abstract(raw):
-    #remove  XML/HTML
+    """Strip XML/HTML tags and decode HTML entities from an abstract string."""
     text = re.sub("<.*?>", "", raw)
-    #decode HTML entity (&amp;, &lt;, etc.)
-    text = html.unescape(text)
-    return text.strip()
+    return html.unescape(text).strip()
 
-"""
-    This function convert the array of articles in a csv dataset
-"""
+
 def build_dataset(articles):
     data = pd.DataFrame(articles)
-    data.to_csv("dataset.csv", index=False)
+    data.to_csv("dataset_test.csv", index=False)
     print("Total articles:", len(data))
 
 
