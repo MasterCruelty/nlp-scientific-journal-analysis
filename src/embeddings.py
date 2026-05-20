@@ -2,10 +2,10 @@ from sentence_transformers import SentenceTransformer
 
 """
     embeddings.py takes a list of strings (abstracts or scope) and returns
-    the corresponding embeddings using a domain specific pre-trained Sentence Transformer model.
+    the corresponding embeddings using a domain specific pre-trained transformer model.
 
     Model: allenai-specter
-    This model is trained on scientific papers.
+    This model is based on SciBERT and trained on scientific papers.
 
     1. Create an instance of EmbeddingsGenerator.
     2. We pass the list of abstracts to obtain the embeddings.
