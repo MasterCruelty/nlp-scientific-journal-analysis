@@ -1,9 +1,9 @@
 import re
 
 """
-    preprocessing.py preprocesses text for SBERT embeddings.
+    preprocessing.py preprocesses text for BERT embeddings.
     
-    SBERT is trained on natural language and relies on full sentence structure 
+    BERT is trained on natural language and relies on full sentence structure 
     to build semantic representations. Removing stop words, lowercasing, 
     or custom tokenization degrades embedding quality.
     
