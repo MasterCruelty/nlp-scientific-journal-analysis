@@ -7,13 +7,13 @@ import html
 """
     get-dataset.py works as an extractor of articles from a certain Journal of our choice.
     * First of all there is need to obtain the ISSN of the Journal and it's needed to select a range of years.
-    * Then we use Crossref API to get the articles of our interest.
+    * Crossref API is used to get data of the articles of our interest(title, abstract, year, doi).
     * At the end the amount of data will get a first refine and converted into a dataset.
 """
 
 
 def fetch_articles(start_date, end_date, rows, url):
-    """Fetch articles via Crossref API, paginating until no items remain. Returns a list of extracted articles."""
+    """Fetch articles via Crossref API. Returns a list of the extracted articles."""
     offset = 0
     all_papers = []
     while True:
