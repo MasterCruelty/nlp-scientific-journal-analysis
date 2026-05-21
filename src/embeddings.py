@@ -19,7 +19,7 @@ class EmbeddingGenerator:
 
     def encode_texts(self, texts):
         """
-        texts: list of abstracts (preprocessed) or single-element list containing scope.
+        texts: list of abstracts or single-element list containing scope.
         batch_size: controls memory usage during encoding.
         show_progress: set True to display tqdm progress bar.
         return: array numpy with embeddings.
