@@ -109,7 +109,7 @@
 
 \abstract{This project focuses on quantitatively assessing whether articles published in a specific journal align with its stated "Aims \& Scope". The core objective is therefore to evaluate wheter the journal's content remains consistent with its declared scope over time. The chosen journal for the demonstration is "Frontiers in Artificial Intelligence".
 
-To achieve this, article abstracts are represented through sentence embeddings generated using a domain-specific pre-trained model based on Sentence-BERT. The Aim \& Scope text is encoded using the same model and it is used as ground truth. Cosine similarity is computed between each abstract embedding and the scope embedding to obtain an alignment score.
+To achieve this, article abstracts are represented through embeddings generated using a domain-specific pre-trained transformer model. The Aim \& Scope text is encoded using the same model and it is used as ground truth. Cosine similarity is computed between each abstract embedding and the scope embedding to obtain an alignment score.
 
 Descriptive statistics and temporal aggregation are employed to analyze the distribution of alignment scores and to detect potential thematic drift across publication years.
 
@@ -141,7 +141,7 @@ The continuous growth of scientific production leads to the problem of having sy
 Maintaining coherence between published articles and the declared scope is essential for preserving the journal's identity.
 Typically this coherence is assessed qualitatively, relying on editorial judgment rather than quantitative evidence.
 \\ \\
-This project proposes a quantitative framework which measures the semantic alignment between published articles and the journal's Aim \& scope. Texts are represented as semantic vectors using transformer-based sentence embeddings.
+This project proposes a quantitative framework which measures the semantic alignment between published articles and the journal's Aim \& scope. Texts are represented as semantic vectors using transformer-based embeddings.
 The editorial mission is encoded as a reference vector(our ground truth) within the same semantic space. Cosine similarity is computed between each article abstract and the reference vector, thus producing an alignment score.
 \\ \\
 The distribution of similarity scores enables the evaluation of thematic consistency and the analysis of potential thematic drift across publication years.
@@ -155,6 +155,7 @@ Each record includes the following fields:
 \begin{itemize}
 \item title
 \item abstract
+\item year
 \item doi (digital object identifier)
 \end{itemize}
 These fields provide a representation of the article content. The corpus consists of 1530 articles, which is enough to produce a meaningful distribution of similarity scores and support statistical analysis.
@@ -173,17 +174,17 @@ The pipeline is built as follow by four stages:
 \item Temporal aggregation and drift analysis
 \end{enumerate}
 
-\subsection{text preprocessing}\label{subsec2}
+\subsection{Text preprocessing}\label{subsec2}
 
 Before generating embeddings, a data cleaning phase is applied. This initial step includes the normalization of whitespace and elimination of non-printable characters. No aggressive linguistic preprocessing is performed, as transformer-based models preserve semantic information more effectively when operating on minimally altered text.\\
 BERT-based models are trained on natural language text and they need the full syntactic and semantic structure of sentences to construct meaningful representations.\\
 So, applying aggressive preprocessing would degrade the quality of the resulting embeddings.\\\\
 The final output of this phase is a cleaned textual corpus, where each abstract and the scope are represented as a single string. The corpus and the scope are then used as input for the embedding generation process.
 
-\subsection{embedding generation}\label{subsec2}
+\subsection{Embedding generation}\label{subsec2}
 
 The core of the methodology used in this project relies on transforming text into vector representations (embeddings).
-A pre-trained Sentence-BERT model is used in order to accomplish this, which is \textbf{allenai-specter}. This model is fine-tuned on scientific papers using citation context as a supervision signal. Two papers linked by a citation are pushed closer together in the embedding space, while unrelated papers are pushed apart.\\
+A pre-trained transformer model specialized in scientific document embeddings, namely \textbf{SPECTER} (allenai-specter), is used to accomplish this task. The model is fine-tuned on scientific papers using citation relationships as a supervision signal. Papers connected through citations are pushed closer in the embedding space, while unrelated papers are pushed farther apart. \\
 Each abstract is encoded into a fixed-dimensional vector. The Aim \& Scope text is encoded using the same model, generating an embedding that acts as a ground truth representation of the journal thematic focus.
 
 \subsection{Similarity computation}\label{subsec4}
@@ -201,7 +202,7 @@ Cosine similarity is the cosine of the angle between the vectors; it is the dot 
 
 \subsection{Temporal aggregation and drift analysis}\label{subsec5}
 
-Once a score is assigned to each article, the distribution of alignment scores is analyzed both globally and longitudinally. Per-year aggregation is computed by grouping articles by publication year and calculating the mean and standard deviation of scores within each group. This temporal view allows the detection of potential thematic drift, which is a systematic shift in the average alignment over time, as well as changes in score variance, which may reflect increasing editorial heterogeneity.
+Once a score is assigned to each article, the distribution of alignment scores is analyzed both globally and longitudinally. Per-year aggregation is computed by grouping articles by publication year and calculating the mean and standard deviation of scores within each group. This temporal view allows the detection of potential thematic drift, which is a systematic shift in the average alignment over time, as well as changes in score dispersion, which may reflect increasing editorial heterogeneity.
 
 \section{Results}\label{sec4}
 
@@ -244,20 +245,86 @@ Maximum                       & 0.907           \\ \hline
 Related to temporal analysis, the data provides insight about a possible thematic drift over time.\\
 The mean value score increases slightly from 0.7079 in 2021 to 0.7355 in 2025, showing a slight and gradual increase in alignment to the Journal's scope over time. The standard deviation remains relatively stable year by year (0.0591 - 0.0689), with a slight increase in variance in more recent years.\\
 This result suggests this Journal maintains a stable editorial coherence, with no single year exhibiting unusually high variance in alignment.\\
-These obtained data are limited to the selected 2021-2025 time window. A broader analysis would be required to assess whether this pattern holds across older and earlier publication years.
+These obtained data are limited to the selected 2021-2025 time window. A broader analysis would be required to assess whether this pattern holds across older and earlier publication years.\\
+The figure 2 below describes how much the alignment score takes distance from mean every year. It gives a comparison year by year showing dispersion differences.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.85\textwidth]{temporal_trend_alignment.pdf}
     \caption{Temporal trend of alignment score from january 2021 to december 2025.}
-    \label{fig:global_distribution}
+    \label{fig:temporal_trend}
 \end{figure}
 
 
-Extremely low scores represent articles that are less aligned with the journal scope, while high scores close to 0.9 indicate very strong semantic alignment. Overall the analysis confirms that the journal consistently publishes articles coherent with its declared Aim \& Scope, with a small number of publications deviating from this focus.
+Extremely low scores represent articles that are less aligned with the journal scope, while high scores close to 0.9 indicate very strong semantic alignment. Overall the analysis confirms that the journal consistently publishes articles coherent with its declared Aim \& Scope, with a small number of publications deviating from this focus. Here below it is possible to take a look at the 10 best aligned articles and the 10 worst aligned articles.\newpage
 
 
-\section{Conclusion}\label{sec5}
+%table 10 best aligned articles
+
+\begin{table}[h]
+\centering
+\begin{tabular}{p{10cm} c c}
+\hline
+\textbf{Title} & \textbf{Year} & \textbf{Score} \\
+\hline
+Ethics dumping in artificial intelligence & 2024 & 0.907 \\
+\hline
+Specific challenges posed by artificial intelligence in research ethics & 2023 & 0.902 \\
+\hline
+AI in humanitarian healthcare: a game changer for crisis response & 2025 & 0.900 \\
+\hline
+What Makes Artificial Intelligence Exceptional in Health Technology Assessment? & 2021 & 0.898 \\
+\hline
+Knowledge, attitude, and practice of artificial intelligence among doctors and medical students in Syria: A cross-sectional online survey & 2022 & 0.891 \\
+\hline
+Ethical-legal implications of AI-powered healthcare in critical perspective & 2025 & 0.890 \\
+\hline
+The imperative of diversity and equity for the adoption of responsible AI in healthcare & 2025 & 0.887 \\
+\hline
+Perceptions of health data commodification in AI-driven healthcare systems in Saudi Arabia & 2025 & 0.884 \\
+\hline
+Using ChatGPT to navigate ambivalent and contradictory research findings on artificial intelligence & 2023 & 0.881 \\
+\hline
+\end{tabular}
+\caption{Top 10 articles with highest alignment to the journal's scope}
+\end{table}
+
+
+
+
+% table 10 worst aligned articles
+
+\begin{table}[h]
+\centering
+\begin{tabular}{p{10cm} c c}
+\hline
+\textbf{Title} & \textbf{Year} & \textbf{Score} \\
+\hline
+DCM2Net: an improved face recognition model for panoramic stereoscopic videos & 2024 & 0.516 \\
+\hline
+Conformational Changes of the Receptor Binding Domain of SARS-CoV-2 Spike Protein and Prediction of a B-Cell Antigenic Epitope Using Structural Data & 2021 & 0.525 \\
+\hline
+Convolutional Neural Network-Based Technique for Gaze Estimation on Mobile Devices & 2022 & 0.551 \\
+\hline
+Clinical Enhancement in AI-Based Post-processed Fast-Scan Low-Dose CBCT for Head and Neck Adaptive Radiotherapy & 2021 & 0.554 \\
+\hline
+FLA-UNet: feature-location attention U-Net for foveal avascular zone segmentation in OCTA images & 2025 & 0.555 \\
+\hline
+BLoss-DDNet: bending loss and dual-task decoding network for overlapping cell nucleus segmentation of cervical clinical LBC images & 2025 & 0.557 \\
+\hline
+Image restoration in frequency space using complex-valued CNNs & 2024 & 0.562 \\
+\hline
+Deep learning for steganalysis: evaluating model robustness against image transformations & 2025 & 0.562 \\
+\hline
+Isolated single sound lip-reading using a frame-based camera and event-based camera & 2023 & 0.569 \\
+\hline
+NeuroSim Simulator for Compute-in-Memory Hardware Accelerator: Validation and Benchmark & 2021 & 0.569 \\
+\hline
+\end{tabular}
+\caption{Top 10 articles with lowest alignment to the journal's scope}
+\end{table}
+
+\newpage \section{Conclusion}\label{sec5}
 
 This project introduced a quantitative framework to assess the alignment between scientific publications and the declared scope of a journal. By using semantic similarity techniques, each article was mapped to a continuous alignment score, enabling a systematic and reproducible evaluation process.\\
 In this case study, results showed that Frontiers in Artificial Intelligence maintains a high thematic coherence across the 2021 - 2025 period. The global distribution of scores is concentrated around the mean with limited dispersion. This means most publications are consistently aligned with the declared scope, while a small subset deviates from it.\\
@@ -266,12 +333,12 @@ The main contribution of this project is the introduction of a normalized metric
 \section*{Declarations}
 \textbf{Ai Usage Disclaimer:} parts of this project have been realized with the assistance of ChatGPT(model GPT-5.3) and Claude(model Sonnet 4.6) for the following types of tasks:
 \begin{itemize}
-\item Reviewing and drafting text during the writing of this report.
+\item Reviewing and refining text during the writing of this report.
 \item Collecting ideas about results analysis.
 \item Generation of Python code to support the development.
 \end{itemize}
 
-Every content generated by AI has been reviewed and tested by a human.
+Every content generated by AI has been reviewed and tested by the author.
 \begin{thebibliography}{9}
 
 \bibitem{reimers2019}
